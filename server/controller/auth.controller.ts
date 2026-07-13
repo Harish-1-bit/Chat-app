@@ -82,16 +82,16 @@ const userLogout = async (req:Request, res:Response) => {
 
 
 // Generate Access Token
-// const generateAccessToken = async(user:any)=>{
-//     const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
-//     return jwt.sign(payload,process.env.JWT_SECRET!,{expiresIn:"15m"})
-// }
+const generateAccessToken = async(user:any)=>{
+    const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
+    return jwt.sign(payload,process.env.JWT_SECRET!,{expiresIn:"15m"})
+}
 
-// // Generate Refresh Token
-// const generateRefreshToken = async(user:any)=>{
-//     const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
-//     return jwt.sign(payload,process.env.JWT_SECRET!,{expiresIn:"7d"})
-// }
+// Generate Refresh Token
+const generateRefreshToken = async(user:any)=>{
+    const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
+    return jwt.sign(payload,process.env.JWT_SECRET!,{expiresIn:"7d"})
+}
 
 const refreshToken = async(req:Request, res:Response)=>{
     try {
