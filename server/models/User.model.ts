@@ -11,6 +11,7 @@ interface IUser{
     password: string
     email: string
     gender: Gender
+    role:string
 }
 
 const userSchema  = new Schema<IUser>({
@@ -21,6 +22,11 @@ const userSchema  = new Schema<IUser>({
     password: {
         type: String,
         required: true
+    },
+    role:{
+        type:String,
+        required:true,
+        enum:["user","admin"]
     },
     email: {
         type: String,
