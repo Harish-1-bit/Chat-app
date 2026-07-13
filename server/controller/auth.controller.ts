@@ -14,12 +14,12 @@ const userLogin = async (req:Request, res:Response) => {
 
         res.status(200).cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         }).cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: 15 * 60 * 1000 // 15 minutes
         }).json({
@@ -83,14 +83,14 @@ const userLogout = async (req:Request, res:Response) => {
 
 // Generate Access Token
 const generateAccessToken = async(user:any)=>{
-    const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
-    return jwt.sign(payload,process.env.JWT_SECRET!,{expiresIn:"15m"})
-}
+    // const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
+    return jwt.sign(user,process.env.JWT_SECRET!,{expiresIn:"15m"})
+} 
 
 // Generate Refresh Token
 const generateRefreshToken = async(user:any)=>{
-    const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
-    return jwt.sign(payload,process.env.JWT_SECRET!,{expiresIn:"7d"})
+    // const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
+    return jwt.sign(user,process.env.JWT_SECRET!,{expiresIn:"7d"})
 }
 
 const refreshToken = async(req:Request, res:Response)=>{
@@ -106,7 +106,7 @@ const refreshToken = async(req:Request, res:Response)=>{
         const accessToken = await generateAccessToken(decode)
         res.status(200).cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === "production"   ,
             sameSite: "strict",
             maxAge: 15 * 60 * 1000 // 15 minutes
         }).json({
