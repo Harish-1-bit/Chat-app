@@ -3,19 +3,25 @@ import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
 import cors from "cors"
 import connectDb from "./dbConfig/dbConfig"
+import errorHandler from "./middleware/errorMiddleware"
 
 dotenv.config()
+const PORT = process.env.PORT
 const app = express()
-
-connectDb()
 
 app.use(express.json())
 app.use(cookieParser())
-// app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }))   
 
+const startServer = async () => {
+  try {
+    await connectDb()
+    app.listen(PORT, () => {
+      console.log(`Server started on port ${PORT}`)
+    })
+  } catch (err) {
+    console.error("Failed to connect to DB:", err)
+    process.exit(1)
+  }
+}
 
-
-
-app.listen(process.env.PORT, () => {
-    console.log(`Server started on port ${process.env.PORT}`)
-})
+startServer()
