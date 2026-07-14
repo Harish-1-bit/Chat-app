@@ -1,6 +1,6 @@
 import  { Schema,model } from "mongoose";
 
-enum Gender{
+export enum Gender{
     MALE="male",
     FEMALE="female",
     OTHER="other"
@@ -26,7 +26,8 @@ const userSchema  = new Schema<IUser>({
     role:{
         type:String,
         required:true,
-        enum:["user","admin"]
+        enum:["user","admin"],
+        default:"user"
     },
     email: {
         type: String,

@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.model";
 
 // User login
-const userLogin = async (req:Request, res:Response) => {
+const userLogin = async (req: Request, res: Response) => {
     try {
-        const {email,
-         password} = req.body;
+        const { email,
+            password } = req.body;
         const result = await authServices.login(email, password);
         const accessToken = await generateAccessToken(result);
         const refreshToken = await generateRefreshToken(result);
@@ -38,15 +38,16 @@ const userLogin = async (req:Request, res:Response) => {
 }
 
 // User Sign Up
-const userSignup = async (req:Request, res:Response) => {
+const userSignup = async (req: Request, res: Response) => {
     try {
         const {
             fullName,
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            gender
         } = req.body;
-        const result = await authServices.signup(fullName, email, password, confirmPassword);
+        const result = await authServices.signup(fullName, email, password, confirmPassword, gender);
         res.status(200).json({
             success: true,
             message: "User signed up successfully",
@@ -54,16 +55,17 @@ const userSignup = async (req:Request, res:Response) => {
         })
     } catch (error: any) {
         console.log(error);
-        res.status(500).json({
+        const statusCode = error.cause?.statusCode || 500;
+
+        res.status(statusCode).json({
             success: false,
-            message: "Failed to sign up user",
-            error: error.message
-        })
+            message: error.message
+        });
     }
 }
 
 // User Logout
-const userLogout = async (req:Request, res:Response) => {
+const userLogout = async (req: Request, res: Response) => {
     try {
         res.clearCookie("refreshToken").clearCookie("accessToken")
         res.status(200).json({
@@ -82,31 +84,31 @@ const userLogout = async (req:Request, res:Response) => {
 
 
 // Generate Access Token
-const generateAccessToken = async(user:any)=>{
+const generateAccessToken = async (user: any) => {
     // const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
-    return jwt.sign(user,process.env.JWT_SECRET!,{expiresIn:"15m"})
-} 
-
-// Generate Refresh Token
-const generateRefreshToken = async(user:any)=>{
-    // const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
-    return jwt.sign(user,process.env.JWT_SECRET!,{expiresIn:"7d"})
+    return jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: "15m" })
 }
 
-const refreshToken = async(req:Request, res:Response)=>{
+// Generate Refresh Token
+const generateRefreshToken = async (user: any) => {
+    // const payload={id:user._id, fullName: user.fullName, email: user.email, role:user.role}
+    return jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: "7d" })
+}
+
+const refreshToken = async (req: Request, res: Response) => {
     try {
         const incomingToken = req.cookies.refreshToken
-        if(!incomingToken){
+        if (!incomingToken) {
             throw new Error("Token Not Found")
         }
-        const decode = jwt.verify(incomingToken,process.env.JWT_SECRET!)
-        if(!decode){
+        const decode = jwt.verify(incomingToken, process.env.JWT_SECRET!)
+        if (!decode) {
             throw new Error("Token Invalid")
         }
         const accessToken = await generateAccessToken(decode)
         res.status(200).cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production"   ,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: 15 * 60 * 1000 // 15 minutes
         }).json({
@@ -114,8 +116,8 @@ const refreshToken = async(req:Request, res:Response)=>{
             message: "Token refreshed successfully",
             data: decode
         })
-       
-    } catch (error:any) {
+
+    } catch (error: any) {
         console.log(error)
         res.status(500).json({
             success: false,
@@ -124,3 +126,7 @@ const refreshToken = async(req:Request, res:Response)=>{
         })
     }
 }
+
+const authController = { userLogin, userLogout, userSignup, refreshToken }
+
+export default authController
