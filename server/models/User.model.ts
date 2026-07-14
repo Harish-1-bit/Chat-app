@@ -1,4 +1,4 @@
-import  { Schema,model } from "mongoose";
+import  { Schema, model } from "mongoose";
 
 export enum Gender{
     MALE="male",
@@ -12,6 +12,7 @@ interface IUser{
     email: string
     gender: Gender
     role:string
+    isGuest:boolean
 }
 
 const userSchema  = new Schema<IUser>({
@@ -40,6 +41,10 @@ const userSchema  = new Schema<IUser>({
         type: String,
         required: [true, "Gender is required"],
         enum: Object.values(Gender)
+    },
+    isGuest: {
+        type: Boolean,
+        default: false
     }
 },{
     timestamps:true
