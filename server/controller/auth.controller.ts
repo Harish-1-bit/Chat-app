@@ -47,6 +47,9 @@ const userSignup = async (req: Request, res: Response) => {
             confirmPassword,
             gender
         } = req.body;
+        if(!fullName || !email || !password || !confirmPassword || !gender){
+            throw new Error("All fields are required",{cause:{statusCode:401}})
+        }
         const result = await authServices.signup(fullName, email, password, confirmPassword, gender);
         res.status(200).json({
             success: true,
@@ -61,6 +64,40 @@ const userSignup = async (req: Request, res: Response) => {
             success: false,
             message: error.message
         });
+    }
+}
+
+// Guest Login
+const guestLogin =  async(req:Request, res:Response)=>{
+    try {
+        const user = await authServices.guestLogin()
+        const accessToken = await generateAccessToken(user)
+        const refreshToken = await generateRefreshToken(user)
+
+        res.cookie("refreshToken",refreshToken,{
+            httpOnly:true,
+            secure:process.env.NODE_ENV==="production",
+            sameSite:"strict",
+            maxAge:7 * 24 * 60 * 60 * 1000 
+        })
+        res.cookie("accessToken",accessToken,{
+            httpOnly:true,
+            secure:process.env.NODE_ENV==="production",
+            sameSite:"strict",
+            maxAge:15 * 60 * 1000 
+        })
+        res.status(200).json({
+            success:true,
+            message:"Guest login successful",
+            data:user
+        })
+    } catch (error:any) {
+        console.log(error)
+        res.status(500).json({
+            success:false,
+            message:"Failed to log in guest",
+            error:error.message
+        })
     }
 }
 
@@ -127,6 +164,6 @@ const refreshToken = async (req: Request, res: Response) => {
     }
 }
 
-const authController = { userLogin, userLogout, userSignup, refreshToken }
+const authController = { userLogin, userLogout, userSignup, refreshToken, guestLogin }
 
 export default authController
