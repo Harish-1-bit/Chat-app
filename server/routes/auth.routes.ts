@@ -17,7 +17,7 @@ router.post("/logout", authController.userLogout)
 // refresh token
 router.post("/refresh", authController.refreshToken)
 
-// // Guest Login
-// router.post("/guest-Login",authController.guestLogin)
+// Guest Login
+router.post("/guest-Login",authController.guestLogin)
 
 export default router
