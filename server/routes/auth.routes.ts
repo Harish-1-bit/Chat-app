@@ -15,7 +15,7 @@ router.post("/sign-up",  authController.userSignup)
 router.post("/logout", authController.userLogout)
 
 // refresh token
-// router.post("/refresh", authController.refreshToken)
+router.post("/refresh", authController.refreshToken)
 
 // Guest Login
 router.post("/guest-Login",authController.guestLogin)
