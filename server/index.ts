@@ -15,6 +15,11 @@
   app.use(cookieParser())
   app.use(urlencoded({extended:true}))
 
+  // test api
+  app.get("/", (req, res) => {
+    res.json({ message: "Server is running" })
+  })
+
   // login routes
   app.use("/api", authRoutes)
 
