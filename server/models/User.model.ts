@@ -18,11 +18,11 @@ interface IUser{
 const userSchema  = new Schema<IUser>({
     fullName: {
         type: String,
-        required: function (this:any) { return !this.isGuest }
+        required: true
     },
     password: {
         type: String,
-        required: function (this:any) { return !this.isGuest }
+        required: true
     },
     role:{
         type:String,
@@ -32,7 +32,7 @@ const userSchema  = new Schema<IUser>({
     },
     email: {
         type: String,
-        required: function (this:any) { return !this.isGuest },
+        required:true,
         unique: true,
         lowercase: true,
         trim: true,
