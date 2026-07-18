@@ -1,9 +1,9 @@
   import express, { urlencoded } from "express"
   import dotenv from "dotenv"
   import cookieParser from "cookie-parser"
-  import connectDb from "./dbConfig/dbConfig"
-  import errorHandler from "./middleware/errorMiddleware"
-  import authRoutes from "./routes/auth.routes"
+  import connectDb from "./dbConfig/dbConfig.js"
+  import errorHandler from "./middleware/errorMiddleware.js"
+  import authRoutes from "./routes/auth.routes.js"
 
 
 

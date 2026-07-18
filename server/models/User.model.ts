@@ -34,6 +34,7 @@ const userSchema  = new Schema<IUser>({
         type: String,
         required: function (this:any) { return !this.isGuest },
         unique: true,
+        sparse: true,
         lowercase: true,
         trim: true,
     },

@@ -1,4 +1,4 @@
-import User, { Gender } from "../models/User.model";
+import User, { Gender } from "../models/User.model.js";
 import bcrypt from "bcrypt"
 class AuthServices {
 
