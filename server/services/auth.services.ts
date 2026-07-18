@@ -7,7 +7,8 @@ class AuthServices {
         fullName: string,
         email: string,
         password: string,
-        confirmpassword: string
+        confirmpassword: string,
+        gender: string
     ) {
         if (password !== confirmpassword) {
             throw new Error("Passwords do not match")
@@ -27,6 +28,7 @@ class AuthServices {
             fullName,
             email,
             password: hashedPassword,
+            gender: gender as Gender
         })
 
         // return createdUser;
