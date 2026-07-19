@@ -4,6 +4,9 @@
   import connectDb from "./dbConfig/dbConfig.js"
   import errorHandler from "./middleware/errorMiddleware.js"
   import authRoutes from "./routes/authroutes.js"
+  import http from 'http'
+  import { Server } from 'socket.io'
+  import {setupSocket} from "./socket/socketHandler.js"
 
 
 
@@ -14,6 +17,11 @@
   app.use(express.json())
   app.use(cookieParser())
   app.use(urlencoded({extended:true}))
+
+  const server = http.createServer(app)
+   const io = new Server(server)
+
+   setupSocket(io)
 
   // test api
   app.get("/", (req, res) => {
@@ -28,8 +36,12 @@
   const startServer = async () => {
     try {
       await connectDb()
-      app.listen(PORT, () => {
-        console.log(`Server started on port ${PORT}`)
+      // app.listen(PORT, () => {
+      //   console.log(`Server started on port ${PORT}`)
+      // })
+      server.listen(PORT,()=>{
+        console.log(`Server is running on port ${PORT}`);
+        
       })
     } catch (err) {
       console.error("Failed to connect to DB:", err)
