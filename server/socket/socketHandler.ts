@@ -1,16 +1,15 @@
-import { Server } from "socket.io";
+import { Server as SocketServer } from "socket.io"
 
+export const setupSocket = (io: SocketServer) => {
+  io.on("connection", (socket) => {
+    console.log(`User connected: ${socket.id}`)
 
-export const setupSocket = (io:Server)=>{
-    io.on('connection',(socket)=>{
-        console.log('user connected')
-
-        socket.on('send-message',(data)=>{
-            console.log(data)
-            io.emit('receive-message',data)
-        })
-        socket.on('disconnect',()=>{
-            console.log('user disconnected')
-        })
+    socket.on("send_message", (data) => {
+      io.emit("receive_message", data)
     })
+
+    socket.on("disconnect", () => {
+      console.log(`User disconnected: ${socket.id}`)
+    })
+  })
 }

@@ -18,8 +18,10 @@
   app.use(cookieParser())
   app.use(urlencoded({extended:true}))
 
-  const server = http.createServer(app)
-   const io = new Server(server)
+   const server = http.createServer(app)
+   const io = new Server(server, {
+     cors: { origin: "*", methods: ["GET", "POST"] },
+   })
 
    setupSocket(io)
 
