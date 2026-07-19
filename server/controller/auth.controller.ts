@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import authServices from "../services/auth.services";
+import authServices from "../services/auth.services.js";
 import jwt from "jsonwebtoken";
-import User from "../models/User.model";
+import User from "../models/User.model.js";
 
 // User login
 const userLogin = async (req: Request, res: Response) => {
