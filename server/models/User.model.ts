@@ -22,7 +22,7 @@ const userSchema  = new Schema<IUser>({
     },
     password: {
         type: String,
-        required: true
+        required: function(this: IUser) { return !this.isGuest }
     },
     role:{
         type:String,
@@ -32,7 +32,7 @@ const userSchema  = new Schema<IUser>({
     },
     email: {
         type: String,
-        required:true,
+        required: function(this: IUser) { return !this.isGuest },
         unique: true,
         sparse: true,
         lowercase: true,

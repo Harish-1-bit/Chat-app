@@ -3,7 +3,7 @@
   import cookieParser from "cookie-parser"
   import connectDb from "./dbConfig/dbConfig.js"
   import errorHandler from "./middleware/errorMiddleware.js"
-  import authRoutes from "./routes/auth.routes.js"
+  import authRoutes from "./routes/authroutes.js"
 
 
 

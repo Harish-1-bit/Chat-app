@@ -62,19 +62,10 @@ class AuthServices {
           fullName:`Guest_${gNumer}`,
           isGuest:true,
           role:"user"
-        }) 
-        return guestUser; 
+        })
+        const { password: removedPassword, ...rest } = guestUser.toObject();
+        return rest;
     }
-//     async guestLogin() {
-//   const guestNumber = Math.floor(1000 + Math.random() * 9000)
-//   const guestUser = await User.create({
-//     fullName: `Guest_${guestNumber}`,
-//     isGuest: true,   // ← only place you set this explicitly
-//     role: "user"
-//   })
-//   return guestUser
-// }
-
 }
 
 export default new AuthServices()
