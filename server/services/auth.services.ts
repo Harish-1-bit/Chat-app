@@ -56,7 +56,7 @@ class AuthServices {
     }
 
     // Guest Login
-    async guestLogin(){
+    async   guestLogin(){
         const gNumer = Math.floor(Math.random()*1000)
         const guestUser = await User.create({
           fullName:`Guest_${gNumer}`,
