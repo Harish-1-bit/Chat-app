@@ -1,20 +1,20 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { LogOut, Menu } from "lucide-react"
+import { LogOut } from "lucide-react"
 
-export default function TopBar() {
+interface TopBarProps {
+  username: string
+}
+
+export default function TopBar({ username }: TopBarProps) {
   return (
     <div className="flex h-14 items-center justify-between border-b px-4">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="lg:hidden">
-          <Menu className="size-5" />
-        </Button>
         <Avatar>
-          <AvatarImage src="/placeholder-avatar.jpg" alt="User" />
-          <AvatarFallback>JD</AvatarFallback>
+          <AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
         </Avatar>
         <div>
-          <p className="text-sm font-medium leading-tight">John Doe</p>
+          <p className="text-sm font-medium leading-tight">{username}</p>
           <div className="flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-green-500" />
             <span className="text-xs text-muted-foreground">Online</span>
