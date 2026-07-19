@@ -1,4 +1,4 @@
-import  { Schema, model } from "mongoose";
+import  mongoose, { Schema, model } from "mongoose";
 
 export enum Gender{
     MALE="male",
@@ -15,7 +15,7 @@ interface IUser{
     isGuest:boolean
 }
 
-const userSchema  = new Schema<IUser>({
+const userSchema  = new mongoose.Schema<IUser>({
     fullName: {
         type: String,
         required: true
