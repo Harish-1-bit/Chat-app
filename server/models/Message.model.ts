@@ -4,6 +4,8 @@ interface IMessage extends Document {
     sender: mongoose.Types.ObjectId
     content: string
     room: mongoose.Types.ObjectId
+    createdAt: Date
+    updatedAt: Date
 }
 
 const messageSchema = new mongoose.Schema({

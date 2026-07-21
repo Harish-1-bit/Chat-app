@@ -8,7 +8,10 @@ const getMessages = async (req:Request, res:Response) => {
         return res.status(200).json({success:true,message})
         
     } catch (error:any) {
-        return res.status(500).json({success:false,message:error.message})
+         console.log(error);
+     
+    const statusCode = error.cause?.statusCode || 500;
+    return res.status(statusCode).json({success:false,message:error.message})
     }
 }
 

@@ -7,6 +7,8 @@
   import http from 'http'
   import { Server } from 'socket.io'
   import {setupSocket} from "./socket/socketHandler.js"
+  import messageRoutes from "./routes/messageroutes.js"
+  import roomRoutes from "./routes/roomroutes.js"
 
 
 
@@ -32,6 +34,12 @@
 
   // login routes
   app.use("/api", authRoutes)
+
+  // room routes
+  app.use("/api/room",roomRoutes)
+
+  // message routes
+  app.use("/api/message",messageRoutes)
 
   app.use(errorHandler)
 

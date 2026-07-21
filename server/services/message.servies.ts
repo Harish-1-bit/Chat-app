@@ -6,7 +6,9 @@ class messageService {
     async getMessages(roomId:string){
        const messages = await Message.find({room:roomId}).sort({createdAt:1})
        if(!messages){
-           throw new Error("Messages not found")
+           throw new Error("Messages not found",{cause:{
+            statusCode:404
+           }})
        }
        return messages 
     }
@@ -15,7 +17,7 @@ class messageService {
     async saveMessages(roomId:string,senderId:string,content:string){
         const message = await Message.create({room:roomId,sender:senderId,content:content})
         if(!message){
-            throw new Error("Message not saved")
+            throw new Error("Message not saved",{cause:{statusCode:403}})
         }
         return message
     }
