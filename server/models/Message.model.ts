@@ -26,6 +26,9 @@ const messageSchema = new mongoose.Schema({
 // index to retrieve last 20 messages from a room
 messageSchema.index({ room: 1, createdAt: -1 })
 
+// auto-delete messages after 24 hours
+messageSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 })
+
 const Message = mongoose.model<IMessage>("Message", messageSchema)
 
 export default Message
