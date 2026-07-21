@@ -31,7 +31,7 @@
   })
 
   // login routes
-  app.use("/api", authRoutes)
+  // app.use("/api", authRoutes)
 
   app.use(errorHandler)
 
