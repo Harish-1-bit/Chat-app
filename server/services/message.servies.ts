@@ -14,8 +14,8 @@ class messageService {
     }
 
     // Save messages
-    async saveMessages(roomId:string,senderId:string,content:string){
-        const message = await Message.create({room:roomId,sender:senderId,content:content})
+    async saveMessages(roomId:string,sender:string,content:string){
+        const message = await Message.create({room:roomId,sender:sender,content:content})
         if(!message){
             throw new Error("Message not saved",{cause:{statusCode:403}})
         }

@@ -1,7 +1,7 @@
 import mongoose, { Document } from "mongoose";
 
 interface IMessage extends Document {
-    sender: mongoose.Types.ObjectId
+    sender: string
     content: string
     room: mongoose.Types.ObjectId
     createdAt: Date
@@ -10,8 +10,7 @@ interface IMessage extends Document {
 
 const messageSchema = new mongoose.Schema({
     sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type:String,
         required: true
     },
     content: {

@@ -5,6 +5,11 @@ export const setupSocket = (io: SocketServer) => {
   io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`)
 
+    socket.on("join_room",({roomId,username}) => {
+      socket.join(roomId)
+      console.log(`User ${username} joined room ${roomId}`);
+    })
+
     socket.on("send_message", async ({roomId, sender, message}) => {
        try {
         if(!roomId || !sender || !message){
